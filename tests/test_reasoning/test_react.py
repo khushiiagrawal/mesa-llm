@@ -47,7 +47,7 @@ class TestReActReasoning:
         """Test get_react_prompt with observation."""
         mock_agent = Mock()
         mock_agent.memory = Mock()
-        mock_agent.memory.get_prompt_ready.return_value = ["memory1", "memory2"]
+        mock_agent.memory.get_prompt_ready.return_value = "memory1\n\nmemory2"
         mock_agent.memory.get_communication_history.return_value = "communication"
 
         reasoning = ReActReasoning(mock_agent)
@@ -63,7 +63,7 @@ class TestReActReasoning:
         """Test get_react_prompt without observation."""
         mock_agent = Mock()
         mock_agent.memory = Mock()
-        mock_agent.memory.get_prompt_ready.return_value = ["memory1"]
+        mock_agent.memory.get_prompt_ready.return_value = "memory1"
         mock_agent.memory.get_communication_history.return_value = ""
 
         reasoning = ReActReasoning(mock_agent)
@@ -77,7 +77,7 @@ class TestReActReasoning:
         """Test plan method with custom prompt."""
         mock_agent = Mock()
         mock_agent.memory = Mock()
-        mock_agent.memory.get_prompt_ready.return_value = ["memory1"]
+        mock_agent.memory.get_prompt_ready.return_value = "memory1"
         mock_agent.memory.get_communication_history.return_value = ""
         mock_agent.memory.add_to_memory = Mock()
         mock_agent.llm = Mock()
@@ -108,7 +108,7 @@ class TestReActReasoning:
         mock_agent = Mock()
         mock_agent.step_prompt = "Default step prompt"
         mock_agent.memory = Mock()
-        mock_agent.memory.get_prompt_ready.return_value = ["memory1"]
+        mock_agent.memory.get_prompt_ready.return_value = "memory1"
         mock_agent.memory.get_communication_history.return_value = ""
         mock_agent.memory.add_to_memory = Mock()
         mock_agent.llm = Mock()
@@ -143,7 +143,7 @@ class TestReActReasoning:
         mock_agent = Mock()
         mock_agent.step_prompt = None
         mock_agent.memory = Mock()
-        mock_agent.memory.get_prompt_ready.return_value = ["memory1"]
+        mock_agent.memory.get_prompt_ready.return_value = "memory1"
         mock_agent.memory.get_communication_history.return_value = ""
 
         reasoning = ReActReasoning(mock_agent)
@@ -159,7 +159,7 @@ class TestReActReasoning:
         mock_agent = Mock()
         mock_agent.step_prompt = "Default step prompt"
         mock_agent.memory = Mock()
-        mock_agent.memory.get_prompt_ready.return_value = ["memory1"]
+        mock_agent.memory.get_prompt_ready.return_value = "memory1"
         mock_agent.memory.get_communication_history.return_value = ""
         mock_agent.memory.add_to_memory = Mock()
         mock_agent.memory.aadd_to_memory = AsyncMock()
@@ -194,7 +194,7 @@ class TestReActReasoning:
         mock_agent = Mock()
         mock_agent.step_prompt = None
         mock_agent.memory = Mock()
-        mock_agent.memory.get_prompt_ready.return_value = ["memory1"]
+        mock_agent.memory.get_prompt_ready.return_value = "memory1"
         mock_agent.memory.get_communication_history.return_value = ""
 
         reasoning = ReActReasoning(mock_agent)
