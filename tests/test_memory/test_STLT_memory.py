@@ -175,9 +175,7 @@ class TestSTLTMemory:
         memory = STLTMemory(agent=mock_agent, llm_model="provider/test_model")
 
         memory.short_term_memory.append(
-            MemoryEntry(
-                content={"observation": "Test obs"}, step=1, agent=mock_agent
-            )
+            MemoryEntry(content={"observation": "Test obs"}, step=1, agent=mock_agent)
         )
         memory.long_term_memory = "Long-term summary"
 
@@ -202,4 +200,3 @@ class TestSTLTMemory:
         )
         assert "Short term memory:" in result
         assert "Long term memory:" in result
-
