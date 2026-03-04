@@ -15,8 +15,8 @@ from mesa_llm.tools.tool_decorator import tool
 if TYPE_CHECKING:
     from mesa_llm.llm_agent import LLMAgent
 
-# Mapping directions to (dx, dy)
-direction_map = {
+# Mapping directions to (dx, dy) for Cartesian-style spaces.
+direction_map_xy = {
     "North": (0, 1),
     "South": (0, -1),
     "East": (1, 0),
@@ -25,6 +25,19 @@ direction_map = {
     "NorthWest": (-1, 1),
     "SouthEast": (1, -1),
     "SouthWest": (-1, -1),
+}
+
+
+# Mapping directions to (drow, dcol) for mesa.discrete_space orthogonal grids.
+direction_map_row_col = {
+    "North": (-1, 0),
+    "South": (1, 0),
+    "East": (0, 1),
+    "West": (0, -1),
+    "NorthEast": (-1, 1),
+    "NorthWest": (-1, -1),
+    "SouthEast": (1, 1),
+    "SouthWest": (1, -1),
 }
 
 
@@ -61,12 +74,18 @@ def move_one_step(agent: "LLMAgent", direction: str) -> str:
         Returns:
             A string confirming the result of the movement attempt.
     """
-    if direction not in direction_map:
+    if direction not in direction_map_xy:
         raise ValueError(
             f"Invalid direction '{direction}'."
-            f"Must be one of {list(direction_map.keys())}"
+            f"Must be one of {list(direction_map_xy.keys())}"
         )
-    dx, dy = direction_map[direction]
+
+    grid = getattr(agent.model, "grid", None)
+    if isinstance(grid, OrthogonalMooreGrid | OrthogonalVonNeumannGrid):
+        dx, dy = direction_map_row_col[direction]
+    else:
+        dx, dy = direction_map_xy[direction]
+
     x, y = _get_agent_position(agent)
 
     new_pos = (x + dx, y + dy)

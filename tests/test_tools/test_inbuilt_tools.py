@@ -83,7 +83,8 @@ def test_move_one_step_on_orthogonal_grid_without_constructor():
 
     orth_grid = object.__new__(_DummyOrthogonalGrid)
     start_target = (1, 1)
-    end_target = (1, 2)
+    # mesa.discrete_space grids use (row, col), so North decrements row.
+    end_target = (0, 1)
     start_cell = SimpleNamespace(coordinate=start_target, agents=[])
     end_cell = SimpleNamespace(coordinate=end_target, agents=[])
     orth_grid._cells = {start_target: start_cell, end_target: end_cell}
@@ -98,7 +99,32 @@ def test_move_one_step_on_orthogonal_grid_without_constructor():
     out = move_one_step(agent, "North")
 
     assert getattr(agent, "cell", None) is end_cell
-    assert out == "agent 10 moved to (1, 2)."
+    assert out == "agent 10 moved to (0, 1)."
+
+
+def test_move_one_step_east_on_orthogonal_grid_without_constructor():
+    class _DummyOrthogonalGrid(OrthogonalMooreGrid):
+        pass
+
+    orth_grid = object.__new__(_DummyOrthogonalGrid)
+    start_target = (1, 1)
+    # mesa.discrete_space grids use (row, col), so East increments col.
+    end_target = (1, 2)
+    start_cell = SimpleNamespace(coordinate=start_target, agents=[])
+    end_cell = SimpleNamespace(coordinate=end_target, agents=[])
+    orth_grid._cells = {start_target: start_cell, end_target: end_cell}
+
+    model = DummyModel()
+    model.grid = orth_grid
+
+    agent = DummyAgent(unique_id=11, model=model)
+    agent.cell = start_cell
+    model.agents.append(agent)
+
+    out = move_one_step(agent, "East")
+
+    assert getattr(agent, "cell", None) is end_cell
+    assert out == "agent 11 moved to (1, 2)."
 
 
 def test_speak_to_records_on_recipients(mocker):
