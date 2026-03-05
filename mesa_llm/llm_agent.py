@@ -93,11 +93,7 @@ class LLMAgent(Agent):
             type="action",
             content={
                 "tool_calls": [
-                    {
-                        k: v
-                        for k, v in tc.items()
-                        if k not in ["tool_call_id", "role"]
-                    }
+                    {k: v for k, v in tc.items() if k not in ["tool_call_id", "role"]}
                     for tc in tool_call_resp
                 ]
             },
@@ -122,11 +118,7 @@ class LLMAgent(Agent):
             type="action",
             content={
                 "tool_calls": [
-                    {
-                        k: v
-                        for k, v in tc.items()
-                        if k not in ["tool_call_id", "role"]
-                    }
+                    {k: v for k, v in tc.items() if k not in ["tool_call_id", "role"]}
                     for tc in tool_call_resp
                 ]
             },

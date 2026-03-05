@@ -53,14 +53,10 @@ class MemoryEntry:
             elif isinstance(value, list):
                 for i, item in enumerate(value):
                     if isinstance(item, dict):
-                        lines.append(
-                            f"   [blue]├──[/blue] [cyan]({i + 1})[/cyan]"
-                        )
+                        lines.append(f"   [blue]├──[/blue] [cyan]({i + 1})[/cyan]")
                         lines.extend(format_nested_dict(item, 2))
                     else:
-                        lines.append(
-                            f"   [blue]├──[/blue] [cyan]{item}[/cyan]"
-                        )
+                        lines.append(f"   [blue]├──[/blue] [cyan]{item}[/cyan]")
             else:
                 lines.append(f"   [blue]└──[/blue] [cyan]{value} :[/cyan]")
 

@@ -66,6 +66,7 @@ def test_apply_plan_adds_to_memory(monkeypatch):
     assert len(action_content["tool_calls"]) == 1
     assert action_content["tool_calls"][0] == {"tool": "foo", "argument": "bar"}
 
+
 def test_apply_plan_preserves_multiple_tool_calls(monkeypatch):
     """All tool call results must be preserved when the LLM returns >1 tool call."""
     monkeypatch.setenv("GEMINI_API_KEY", "dummy")
@@ -88,8 +89,18 @@ def test_apply_plan_preserves_multiple_tool_calls(monkeypatch):
     agent.memory = ShortTermMemory(agent=agent, n=5, display=False)
 
     fake_response = [
-        {"tool_call_id": "1", "role": "tool", "name": "move_one_step", "response": "agent moved to (3, 4)"},
-        {"tool_call_id": "2", "role": "tool", "name": "arrest_citizen", "response": "Citizen 12 arrested"},
+        {
+            "tool_call_id": "1",
+            "role": "tool",
+            "name": "move_one_step",
+            "response": "agent moved to (3, 4)",
+        },
+        {
+            "tool_call_id": "2",
+            "role": "tool",
+            "name": "arrest_citizen",
+            "response": "Citizen 12 arrested",
+        },
     ]
     monkeypatch.setattr(
         agent.tool_manager, "call_tools", lambda agent, llm_response: fake_response
@@ -135,8 +146,18 @@ async def test_aapply_plan_preserves_multiple_tool_calls(monkeypatch):
     agent.memory = ShortTermMemory(agent=agent, n=5, display=False)
 
     fake_response = [
-        {"tool_call_id": "1", "role": "tool", "name": "move_one_step", "response": "agent moved to (3, 4)"},
-        {"tool_call_id": "2", "role": "tool", "name": "arrest_citizen", "response": "Citizen 12 arrested"},
+        {
+            "tool_call_id": "1",
+            "role": "tool",
+            "name": "move_one_step",
+            "response": "agent moved to (3, 4)",
+        },
+        {
+            "tool_call_id": "2",
+            "role": "tool",
+            "name": "arrest_citizen",
+            "response": "Citizen 12 arrested",
+        },
     ]
 
     async def fake_acall_tools(agent, llm_response):
